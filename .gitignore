@@ -1,3 +1,10 @@
+outdir1
+outdir
+build
+image.*
+unknown
+news-cache.json
+
 # Logs
 logs
 *.log
@@ -102,3 +109,4 @@ dist
 
 # TernJS port file
 .tern-port
+images/apod.jpg
