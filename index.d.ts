@@ -1,4 +1,4 @@
-declare module "redcedars-builder";
+declare module "apod-builder";
 
 export interface LoggerInterface {
     error(text: string): void;
@@ -18,7 +18,7 @@ export interface ImageWriterInterface {
     saveFile(fileName: string, buf: Buffer): void;
 }
 
-export declare class RedCedarsBuilder {
-    constructor(logger: LoggerInterface, cache: KacheInterface, writer: ImageWriterInterface): void;
-    CreateImages(url: string): Promise<boolean>
+export declare class ApodBuilder {
+    constructor(logger: LoggerInterface, cache: KacheInterface, writer: ImageWriterInterface);
+    CreateImages(apiKey: string): Promise<boolean>
 }
