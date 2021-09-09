@@ -8,7 +8,7 @@ import { ApodData, ApodJsonData } from "./ApodData";
 
 export class ApodBuilder {
     private logger: LoggerInterface;
-    private cache: KacheInterface | null; // generally null right now, we don't cache the data from the redcedars station
+    private cache: KacheInterface | null; 
     private writer: ImageWriterInterface;
 
     constructor(logger: LoggerInterface, cache: KacheInterface | null, writer: ImageWriterInterface) {
