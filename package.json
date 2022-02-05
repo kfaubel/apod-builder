@@ -1,6 +1,6 @@
 {
   "name": "apod-builder",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Create jpegs with data from NASA's APOD",
   "main": "index.js",
   "types": "index.d.ts",
