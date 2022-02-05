@@ -28,18 +28,18 @@ export class ApodBuilder {
             const apodImage: ApodImage = new ApodImage(this.logger);
 
             const result = await apodImage.getImage(apodJson);
+            const fileName = "apod.jpg";
         
-            if (result !== null && result.imageData !== null ) {
-                const fileName = "apod.jpg";
-                this.logger.info(`CreateImages: Writing: ${fileName}`);
+            if (result !== null && result.imageData !== null ) {                
+                this.logger.info(`ApodBuilder: Writing: ${fileName}`);
                 this.writer.saveFile(fileName, result.imageData.data);
             } else {
-                this.logger.error("CreateImages: No imageData returned from apodImage.getImage");
+                this.logger.warn(`ApodBuilder: No image for: ${fileName}`);
                 return false;
             }
             
         } catch (e) {
-            this.logger.error(`CreateImages: Exception: ${e}`);
+            this.logger.error(`ApodBuilder: Exception: ${e}`);
             return false;
         }
 

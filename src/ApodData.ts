@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse, AxiosRequestConfig, AxiosError } from "axios";
 import { LoggerInterface } from "./Logger";
 
 export interface ApodJsonData {
@@ -31,12 +31,20 @@ export class ApodData {
         
         let apodJson: ApodJsonData | null = null;
 
-        try {
-            const response = await axios.get(url, {headers: {"Content-Encoding": "gzip"}});
-            apodJson = response.data as ApodJsonData;
-        } catch(e) {
-            this.logger.error(`ApodData: Error getting data: ${e}`);
-        }
+        const options: AxiosRequestConfig = {
+            headers: {
+                "Content-Encoding": "gzip"
+            },
+            timeout: 5000
+        };
+
+        await axios.get(url, options)
+            .then((response: AxiosResponse) => {
+                apodJson = response.data as ApodJsonData;
+            })
+            .catch((error: AxiosError) => {
+                this.logger.warn(`ApodData: GET error: ${error}`);
+            }); 
 
         return apodJson;
     }
