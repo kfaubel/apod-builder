@@ -38,8 +38,12 @@ export class ApodData {
             timeout: 5000
         };
 
+        const startTime = new Date();
         await axios.get(url, options)
             .then((response: AxiosResponse) => {
+                if (typeof process.env.TRACK_GET_TIMES !== "undefined" ) {
+                    this.logger.info(`ApodData: GET TIME: ${new Date().getTime() - startTime.getTime()}ms`);
+                }
                 apodJson = response.data as ApodJsonData;
             })
             .catch((error: AxiosError) => {
