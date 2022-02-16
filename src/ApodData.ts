@@ -3,6 +3,7 @@ import { LoggerInterface } from "./Logger";
 
 export interface ApodJsonData {
     date?: string;
+    media_type?: string;
     explanation?: string;            // localtime station last reported
     hdurl?: string;
     title?: string;
@@ -18,6 +19,8 @@ export class ApodData {
 
     public async getApodData(apiKey: string): Promise<ApodJsonData | null> { 
         const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
+
+        this.logger.verbose(`ApodData: Getting APOD data from: ${url}`);
 
         // {
         //     "date": "2021-09-08",
@@ -35,7 +38,7 @@ export class ApodData {
             headers: {
                 "Content-Encoding": "gzip"
             },
-            timeout: 5000
+            timeout: 20000
         };
 
         const startTime = new Date();

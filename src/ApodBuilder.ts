@@ -1,19 +1,16 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { LoggerInterface } from "./Logger";
-import { KacheInterface } from "./Kache";
 import { ImageWriterInterface } from "./SimpleImageWriter";
 import { ApodImage } from "./ApodImage";
 import { ApodData, ApodJsonData } from "./ApodData";
 
 export class ApodBuilder {
     private logger: LoggerInterface;
-    private cache: KacheInterface | null; 
     private writer: ImageWriterInterface;
 
-    constructor(logger: LoggerInterface, cache: KacheInterface | null, writer: ImageWriterInterface) {
+    constructor(logger: LoggerInterface, writer: ImageWriterInterface) {
         this.logger = logger;
-        this.cache = cache; 
         this.writer = writer;
     }
 

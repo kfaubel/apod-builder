@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from "axios"; 
 import jpeg from "jpeg-js";
-import fs, { stat } from "fs";
 import path from "path";
 import { Stream } from "stream";
 import * as pure from "pureimage";
@@ -87,24 +86,24 @@ export class ApodImage {
         const ctx = img.getContext("2d");
 
         // Fill the background
-        ctx.fillStyle = backgroundColor;
-        //ctx.fillRect(0, 0, imageWidth, imageHeight);
         this.myFillRect(img, 0, 0, imageWidth, imageHeight, backgroundColor);
 
         try {
             let picture: jpeg.BufferRet | null = null;
 
             if (apodJson.hdurl !== undefined) {
-                const pictureUrl = (apodJson.hdurl as string);
-                // this.logger.verbose(`ApodImage: hdurl: ${pictureUrl}`);
+                this.logger.verbose(`ApodImage: hdurl: ${apodJson.hdurl}`);
                 
                 // first try to download a jpg
                 try {
-                    const response: AxiosResponse = await axios.get(pictureUrl, {responseType: "stream"} );
+                    const response: AxiosResponse = await axios.get(apodJson.hdurl, {responseType: "stream"} );
                     picture = await pure.decodeJPEGFromStream(response.data);
-                } catch (e) {
+                } catch (error) {
+                    this.logger.warn(`ApodImage: Failed to get data ${error})`);
                     picture = null;
                 }
+            } else {
+                this.logger.warn(`ApodImage: APOD has no hdurl today, media_type=${apodJson.media_type}`);
             }
 
             if (picture !== null) {
@@ -116,7 +115,6 @@ export class ApodImage {
                     // Aspect ratio is wider than the full image aspect ratio, shorten the image
                     scaledWidth = fullPictureWidth;
                     scaledHeight = (fullPictureWidth * picture.height) / picture.width;
-                    pictureX = 0;
                     pictureY = (fullPictureHeight - scaledHeight) / 2;
 
                 } else {
@@ -124,7 +122,6 @@ export class ApodImage {
                     scaledHeight = fullPictureHeight;
                     scaledWidth = (fullPictureHeight * picture.width) / picture.height;
                     pictureX = (fullPictureWidth - scaledWidth) / 2;    // Center the picture 
-                    pictureY = 0; //Leave room for a title at the bottom
                 }
 
                 ctx.drawImage(picture,
@@ -135,7 +132,7 @@ export class ApodImage {
                 return null;
             }
         } catch (e) {
-            this.logger.warn(`NewsImage: Exception: ${e}, Picture: ${apodJson.hdurl as string}`);
+            this.logger.warn(`ApodImage: Exception: ${e}, Picture: ${apodJson.hdurl as string}`);
             return null;
         }
 
