@@ -9,16 +9,11 @@ export interface LoggerInterface {
     trace(text: string): void;
 }
 
-export interface KacheInterface {
-    get(key: string): unknown;
-    set(key: string, newItem: unknown, expirationTime: number): void;
-}
-
 export interface ImageWriterInterface {
     saveFile(fileName: string, buf: Buffer): void;
 }
 
 export declare class ApodBuilder {
-    constructor(logger: LoggerInterface, cache: KacheInterface, writer: ImageWriterInterface);
+    constructor(logger: LoggerInterface, writer: ImageWriterInterface);
     CreateImages(apiKey: string): Promise<boolean>
 }
