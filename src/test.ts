@@ -7,6 +7,7 @@ import { ApodBuilder } from "./ApodBuilder";
 async function run() {
     dotenv.config();  // Load var from .env into the environment
 
+    // Inject dependencies useful for local testing
     const logger: Logger = new Logger("apod-builder", "verbose");
     const simpleImageWriter: SimpleImageWriter = new SimpleImageWriter(logger, "images");
     const apodBuilder: ApodBuilder = new ApodBuilder(logger, simpleImageWriter);
