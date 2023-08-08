@@ -10,7 +10,7 @@
     "test": "npm run build && node app.js",
     "start": "npm run build && node app.js",
     "prepare": "npm run build",
-    "publish": "echo Published.",
+    "publish": "npm test && npm publish && echo Published.",
     "install": "echo Installed.",
     "lint": "eslint"
   },
